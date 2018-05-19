@@ -1,0 +1,73 @@
+<div class="m" >
+    <div>
+        <p>
+        JSON
+        </p>
+        <input class="col-sm-5" disabled="disabled" id="json" value="data.json" />
+    </div>
+    <div>
+        <p>        
+        LIMIT:
+        </p>
+         <input class="col-sm-5" [(ngModel)]="limit" placeholder="5">
+    </div>
+
+    <p></p>
+</div>
+<img src="assets/xsolve.png" class="image" width="200px" alt="">
+<div [ngSwitch] = 'viewMode' >
+<table  *ngSwitchCase="'firstPage'" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col"><input  type="number" min="0" [(ngModel)]="filter.id" placeholder="id"  ></th>
+            <th scope="col"><input  type="text" [(ngModel)]="filter.firstName" step="4"placeholder="firstName"></th>
+            <th scope="col"><input  type="text" [(ngModel)]="filter.lastName" placeholder="lastName"></th>
+            <th scope="col"><input  type="date"  [(ngModel)]="filter.dataOfBirth" placeholder="dateOfBirth"></th>
+            <th scope="col"><input  type="text" [(ngModel)]="filter.company" placeholder="Company"></th>
+            <th scope="col"><input type="number" min="0" [(ngModel)]="filter.note" placeholder="note"></th>
+            </tr>
+    </thead>
+
+    <tbody  *ngFor="let employe of employess | search :filter | sortData: 'id'; let i = index;  ">
+        <tr *ngIf = "i < limit  "> 
+            <td>{{employe.id}}</td>
+            <td>{{employe.firstName }}</td>
+            <td>{{employe.lastName}}</td>
+            <td>{{employe.dateOfBirth | datePipe}}</td>
+            <td>{{employe.company}}</td>
+            <td>{{employe.note}}</td>
+            
+        </tr>
+    </tbody>
+</table >
+<table *ngSwitchCase="'secondPage'" class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"><input  type="number" [(ngModel)]="filter.id" placeholder="id"  ></th>
+                <th scope="col"><input  type="text" [(ngModel)]="filter.firstName" step="4"placeholder="firstName"></th>
+                <th scope="col"><input  type="text" [(ngModel)]="filter.lastName" placeholder="lastName"></th>
+                <th scope="col"><input  type="date"  [(ngModel)]="filter.dataOfBirth" placeholder="dateOfBirth"></th>
+                <th scope="col"><input  type="text" [(ngModel)]="filter.company" placeholder="Company"></th>
+                <th scope="col"><input type="number" [(ngModel)]="filter.note" placeholder="note"></th>
+            </tr>
+        </thead>
+    <tbody *ngFor="let employe of employess | search :filter | sortData: 'id' ; let i = index; " >
+        <tr   *ngIf= "i>=limit" > 
+            <td>{{employe.id }}</td>
+            <td>{{employe.firstName}}</td>
+            <td>{{employe.lastName}}</td>
+            <td>{{employe.dateOfBirth | datePipe }}</td>
+            <td>{{employe.company}}</td>
+            <td>{{employe.note}}</td>
+        </tr> 
+    </tbody>
+</table>
+<table>
+    <tfoot>
+        <td colspan="6">
+            <button (click)= "viewMode='firstPage'" class="badge">Page 1</button>
+            <button (click)= "viewMode = 'secondPage'"class="badge">Page 2</button>
+        </td>
+    </tfoot>
+</table>
+</div>
